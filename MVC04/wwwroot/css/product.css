@@ -688,28 +688,28 @@ textarea.form-control-custom {
     border: 1px solid #fecaca;
 }
 
-
-@keyframes rowFadeOutSlide {
-    0% {
-        opacity: 1;
-        background-color: #fee2e2;
-        transform: scale(1);
-    }
-
-    40% {
-        opacity: 0.7;
-        background-color: #fecaca;
-        transform: scale(0.98);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translateX(40px) scale(0.95);
-        max-height: 0;
-    }
+/* ==========================================================
+   CSS Cho Nút Giảm Giá (Bài 5.2)
+   ========================================================== */
+.btn-discount-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    margin-left: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0284c7;
+    background-color: #f0f9ff;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid #bae6fd;
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
 }
 
-.row-fade-out {
-    animation: rowFadeOutSlide 0.45s ease-out forwards;
-    pointer-events: none;
+.btn-discount-link:hover {
+    color: #0369a1;
+    background-color: #e0f2fe;
+    border-color: #7dd3fc;
 }

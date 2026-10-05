@@ -40,7 +40,7 @@
                 <tr>
                     <th class="text-center" style="width: 70px;">STT</th>
                     <th>Tên hàng</th>
-                    <th style="width: 160px;">Đơn giá</th>
+                    <th style="width: 240px;">Đơn giá</th>
                     <th>Mô tả</th>
                     <th class="text-center" style="width: 110px;">Xử lý</th>
                 </tr>
@@ -53,7 +53,21 @@
                         <tr id="row-@item.ProductID" class="product-row">
                             <td class="text-center fw-bold col-stt">@(stt++)</td>
                             <td class="fw-semibold">@item.ProductName</td>
-                            <td>@string.Format("{0:N0} VND", item.ProductPrice)</td>
+                            <td style="white-space: nowrap;">
+                                <span class="product-price-val">@string.Format("{0:N0} VND", item.ProductPrice)</span>
+                                @if (item.ProductPrice >= 100000)
+                                {
+                                    <a href="javascript:void(0);"
+                                       class="btn-discount-link"
+                                       onclick="giamGiaAjax(@item.ProductID, this);">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="7 13 12 18 17 13"></polyline>
+                                            <polyline points="7 6 12 11 17 6"></polyline>
+                                        </svg>
+                                        Giảm giá
+                                    </a>
+                                }
+                            </td>
                             <td>@(string.IsNullOrWhiteSpace(item.Description) ? "—" : item.Description)</td>
                             <td class="text-center">
                                 <a href="javascript:void(0);"
@@ -132,6 +146,66 @@
             xhr.send();
         }
 
+        /**
+         * Bài 5.2: Giảm giá mặt hàng bằng AJAX sử dụng XMLHttpRequest
+         */
+        function giamGiaAjax(productId, btnElement) {
+            // b1: Hỏi xác nhận
+            var confirmed = confirm("Có chắc chắn giảm giá không?");
+            if (!confirmed) {
+                return;
+            }
+
+            // b2: Tạo XMLHttpRequest
+            var xhr = new XMLHttpRequest();
+            var url = "/Product/Giamgia/" + productId;
+
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        try {
+                            var response = JSON.parse(xhr.responseText);
+
+                            // b3: Cập nhật giá mới trên giao diện
+                            if (response.success) {
+                                var tdCell = btnElement.closest("td");
+                                if (tdCell) {
+                                    var priceSpan = tdCell.querySelector(".product-price-val");
+                                    if (priceSpan) {
+                                        priceSpan.textContent = response.formattedPrice;
+                                        // Hiệu ứng nhấp nháy xanh
+                                        priceSpan.style.transition = "color 0.3s ease";
+                                        priceSpan.style.color = "#16a34a";
+                                        setTimeout(function () {
+                                            priceSpan.style.color = "";
+                                        }, 800);
+                                    }
+                                }
+
+                                // Nếu giá mới < 100.000 -> xóa nút Giảm giá
+                                if (!response.canDiscountMore) {
+                                    btnElement.remove();
+                                }
+
+                                showToast(response.message, "success");
+                            } else {
+                                showToast(response.message, "error");
+                            }
+                        } catch (e) {
+                            showToast("Lỗi khi đọc phản hồi từ máy chủ!", "error");
+                        }
+                    } else {
+                        showToast("Lỗi kết nối máy chủ (Mã: " + xhr.status + ")!", "error");
+                    }
+                }
+            };
+
+            xhr.send();
+        }
+
        
         function updateSttNumbers() {
             var rows = document.querySelectorAll("#productTable tbody tr.product-row");
@@ -154,7 +228,7 @@
             var toast = document.getElementById("ajaxToast");
             if (!toast) return;
 
-            toast.textContent = (type === "success" ? "Done" " : "Err") + message;
+            toast.textContent = (type === "success" ? "✓ " : "✕ ") + message;
             toast.className = "ajax-toast " + (type === "success" ? "toast-success" : "toast-error") + " show";
 
             if (toastTimer) {
