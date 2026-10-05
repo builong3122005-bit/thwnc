@@ -118,5 +118,26 @@ namespace MVC04.Controllers
 
             return View(product);
         }
+
+        // POST /Product/DeleteAjax/{id} - Bai 5.1 xoa mat hang bang Ajax
+        [HttpPost]
+        [ActionName("DeleteAjax")]
+        public async Task<IActionResult> DeleteAjax(int id)
+        {
+            try
+            {
+                var isDeleted = await _productRepo.DeleteAsync(id);
+                if (isDeleted)
+                {
+                    await _productRepo.SaveAsync();
+                    return Json(new { success = true, message = "Xóa mặt hàng thành công!" });
+                }
+                return Json(new { success = false, message = "Không tìm thấy mặt hàng cần xóa!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra khi xóa: " + ex.Message });
+            }
+        }
     }
 }

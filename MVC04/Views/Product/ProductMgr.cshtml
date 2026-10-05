@@ -35,7 +35,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="custom-table">
+        <table class="custom-table" id="productTable">
             <thead>
                 <tr>
                     <th class="text-center" style="width: 70px;">STT</th>
@@ -50,15 +50,15 @@
                 {
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td class="text-center fw-bold">@(stt++)</td>
+                        <tr id="row-@item.ProductID" class="product-row">
+                            <td class="text-center fw-bold col-stt">@(stt++)</td>
                             <td class="fw-semibold">@item.ProductName</td>
                             <td>@string.Format("{0:N0} VND", item.ProductPrice)</td>
                             <td>@(string.IsNullOrWhiteSpace(item.Description) ? "—" : item.Description)</td>
                             <td class="text-center">
-                                <a asp-action="Delete" asp-route-id="@item.ProductID"
+                                <a href="javascript:void(0);"
                                    class="btn-delete-link"
-                                   onclick="return confirm('Bạn có chắc chắn muốn xóa mặt hàng \'@item.ProductName\' không?');">
+                                   onclick="deleteProductAjax(@item.ProductID, this);">
                                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="3 6 5 6 21 6"></polyline>
                                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -73,7 +73,7 @@
                 }
                 else
                 {
-                    <tr>
+                    <tr id="emptyRow">
                         <td colspan="5" class="empty-state">
                             Chưa có mặt hàng nào trong CSDL. <a asp-action="NewProduct" style="color: var(--primary-color);">Bấm vào đây để thêm mới!</a>
                         </td>
@@ -84,3 +84,86 @@
     </div>
 </div>
 
+@* Toast thong bao ket qua AJAX *@
+<div id="ajaxToast" class="ajax-toast"></div>
+
+@section Scripts {
+    <script>
+       
+        function deleteProductAjax(productId, btnElement) {
+            var confirmed = confirm("Có chắc chắn xóa không?");
+            if (!confirmed) {
+                return;
+            }
+            var xhr = new XMLHttpRequest();
+            var url = "/Product/DeleteAjax/" + productId;
+
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        try {
+                            var response = JSON.parse(xhr.responseText);
+                            if (response.success) {
+                                var targetRow = btnElement.closest("tr");
+                                if (targetRow) {
+                                    targetRow.classList.add("row-fade-out");
+                                    setTimeout(function () {
+                                        targetRow.remove();
+                                        updateSttNumbers();
+                                    }, 450);
+                                }
+
+                                showToast(response.message || "Xóa mặt hàng thành công!", "success");
+                            } else {
+                                showToast(response.message || "Xóa mặt hàng thất bại!", "error");
+                            }
+                        } catch (e) {
+                            showToast("Lỗi khi đọc dữ liệu phản hồi từ máy chủ!", "error");
+                        }
+                    } else {
+                        showToast("Lỗi kết nối máy chủ (Mã: " + xhr.status + "). Vui lòng thử lại!", "error");
+                    }
+                }
+            };
+
+            xhr.send();
+        }
+
+       
+        function updateSttNumbers() {
+            var rows = document.querySelectorAll("#productTable tbody tr.product-row");
+            var tbody = document.querySelector("#productTable tbody");
+
+            if (rows.length === 0) {
+                tbody.innerHTML = '<tr id="emptyRow"><td colspan="5" class="empty-state">Chưa có mặt hàng nào trong CSDL. <a href="/Product/NewProduct" style="color: var(--primary-color);">Bấm vào đây để thêm mới!</a></td></tr>';
+            } else {
+                rows.forEach(function (row, index) {
+                    var sttCell = row.querySelector(".col-stt");
+                    if (sttCell) {
+                        sttCell.textContent = index + 1;
+                    }
+                });
+            }
+        }
+
+        var toastTimer = null;
+        function showToast(message, type) {
+            var toast = document.getElementById("ajaxToast");
+            if (!toast) return;
+
+            toast.textContent = (type === "success" ? "Done" " : "Err") + message;
+            toast.className = "ajax-toast " + (type === "success" ? "toast-success" : "toast-error") + " show";
+
+            if (toastTimer) {
+                clearTimeout(toastTimer);
+            }
+
+            toastTimer = setTimeout(function () {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+    </script>
+}
