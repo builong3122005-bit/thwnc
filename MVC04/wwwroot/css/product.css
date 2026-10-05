@@ -1,0 +1,622 @@
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --text-dark: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --bg-light: #f8fafc;
+    --error-color: #dc2626;
+    --error-bg: #fef2f2;
+    --error-border: #fecaca;
+    --success-color: #166534;
+    --success-bg: #f0fdf4;
+    --success-border: #bbf7d0;
+    --radius: 8px;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.product-wrapper {
+    max-width: 650px;
+    margin: 30px auto;
+    padding: 0 16px;
+    font-family: inherit;
+}
+
+.product-card {
+    background-color: #ffffff;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.product-card-header {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: #ffffff;
+    padding: 20px 24px;
+}
+
+.product-card-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.product-card-body {
+    padding: 24px;
+}
+
+/* Cac truong nhap lieu */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.required-mark {
+    color: var(--error-color);
+}
+
+.form-control-custom {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control-custom:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+textarea.form-control-custom {
+    resize: vertical;
+    min-height: 90px;
+}
+
+/* Hien thi loi khi validation sai */
+.form-control-custom.input-validation-error {
+    border-color: var(--error-color);
+    background-color: #fffafb;
+}
+
+.field-validation-error {
+    display: block;
+    color: var(--error-color);
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+/* O nhap don gia kem ky hieu d */
+.price-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.price-input-group .form-control-custom {
+    padding-right: 40px;
+}
+
+.price-suffix {
+    position: absolute;
+    right: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+/* Khung xem truoc anh */
+.image-preview-box {
+    margin-top: 10px;
+    padding: 12px;
+    background-color: var(--bg-light);
+    border: 1px dashed #cbd5e1;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.preview-title {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.preview-image {
+    max-height: 150px;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background: #ffffff;
+}
+
+/* Hop thong bao */
+.alert-box {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.alert-success {
+    background-color: var(--success-bg);
+    color: var(--success-color);
+    border: 1px solid var(--success-border);
+}
+
+.alert-error {
+    background-color: var(--error-bg);
+    color: var(--error-color);
+    border: 1px solid var(--error-border);
+}
+
+.validation-summary-valid {
+    display: none !important;
+}
+
+.alert-close-btn {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: inherit;
+    line-height: 1;
+}
+
+/* Nut bam hanh dong */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
+}
+
+.btn-custom {
+    padding: 10px 22px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.btn-primary-custom {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-secondary-custom {
+    background-color: #ffffff;
+    color: var(--text-dark);
+    border-color: #cbd5e1;
+}
+
+.btn-secondary-custom:hover {
+    background-color: var(--bg-light);
+}
+
+/* Bang danh sach san pham (ProductMgr) */
+.product-mgr-wrapper {
+    max-width: 960px;
+    margin: 30px auto;
+    padding: 0 16px;
+    font-family: inherit;
+}
+
+.table-header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    background: #ffffff;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.custom-table th {
+    background-color: #f1f5f9;
+    color: #334155;
+    font-weight: 600;
+    padding: 14px 16px;
+    border-bottom: 2px solid #cbd5e1;
+    border-right: 1px solid #e2e8f0;
+}
+
+.custom-table th:last-child {
+    border-right: none;
+}
+
+.custom-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+    color: var(--text-dark);
+    vertical-align: middle;
+}
+
+.custom-table td:last-child {
+    border-right: none;
+}
+
+.custom-table tr:last-child td {
+    border-bottom: none;
+}
+
+.custom-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-end {
+    text-align: right;
+}
+
+/* Nut xoa */
+.btn-delete-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--error-color);
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.btn-delete-link:hover {
+    color: #991b1b;
+    background-color: var(--error-bg);
+    border-color: var(--error-border);
+}
+
+.btn-add-new {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.btn-add-new:hover {
+    background-color: var(--primary-hover);
+    color: #ffffff;
+}
+
+/* Trang thai trong khi chua co du lieu */
+.empty-state {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+/* ==========================================================
+   CSS Cho Danh Sach San Pham Dang Luoi (ProductList - Hinh 1)
+   ========================================================== */
+
+.catalog-container {
+    max-width: 1080px;
+    margin: 30px auto;
+    padding: 0 16px;
+    font-family: inherit;
+}
+
+.catalog-header {
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 12px;
+    margin-bottom: 28px;
+}
+
+.catalog-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+/* Luoi 3 cot theo dung Hinh 1 */
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .catalog-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .catalog-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.catalog-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.catalog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Khung chua anh san pham */
+.catalog-card-img-wrap {
+    height: 190px;
+    background-color: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.catalog-card-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    padding: 12px;
+    transition: transform 0.2s ease;
+}
+
+.catalog-card:hover .catalog-card-img {
+    transform: scale(1.05);
+}
+
+/* The don gia o goc the */
+.catalog-price-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #2563eb;
+    color: #ffffff;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Phan thong tin the san pham */
+.catalog-card-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.catalog-product-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-decoration: none;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.catalog-product-name:hover {
+    color: var(--primary-color);
+}
+
+.catalog-product-desc {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    margin-bottom: 16px;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Nut Add To Cart */
+.btn-add-cart {
+    display: block;
+    width: 100%;
+    padding: 9px 0;
+    text-align: center;
+    background-color: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s ease-in-out;
+}
+
+.btn-add-cart:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border-color: var(--primary-color);
+}
+
+/* ==========================================================
+   CSS Cho Trang Chi Tiet San Pham (ProductDetail)
+   ========================================================== */
+
+.detail-wrapper {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 16px;
+    font-family: inherit;
+}
+
+.detail-card {
+    background-color: #ffffff;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    display: flex;
+    gap: 36px;
+    padding: 32px;
+}
+
+@media (max-width: 768px) {
+    .detail-card {
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+    }
+}
+
+.detail-img-box {
+    flex: 1;
+    min-width: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.detail-img {
+    max-width: 100%;
+    max-height: 320px;
+    object-fit: contain;
+}
+
+.detail-info {
+    flex: 1.4;
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0 0 12px 0;
+}
+
+.detail-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.detail-section-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+}
+
+.detail-desc-text {
+    color: var(--text-dark);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+    background: #f8fafc;
+    padding: 14px 16px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+.detail-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: var(--text-dark);
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+
+.btn-back:hover {
+    background-color: var(--bg-light);
+}
+
+.btn-detail-cart {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 24px;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.btn-detail-cart:hover {
+    background-color: var(--primary-hover);
+}

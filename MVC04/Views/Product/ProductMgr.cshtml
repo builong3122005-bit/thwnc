@@ -1,0 +1,86 @@
+@model IEnumerable<MVC04.Models.Product>
+
+@{
+    ViewData["Title"] = "Quản lý hàng hóa";
+    int stt = 1;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/product.css" asp-append-version="true" />
+}
+
+<div class="product-mgr-wrapper">
+    @* Thong bao sau khi thuc hien hanh dong *@
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-box alert-success" id="mgrSuccessAlert">
+            <span>✓ <strong>Thành công!</strong> @TempData["SuccessMessage"]</span>
+            <button type="button" class="alert-close-btn" onclick="document.getElementById('mgrSuccessAlert').style.display='none'">&times;</button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert-box alert-error" id="mgrErrorAlert">
+            <span>✕ <strong>Lỗi!</strong> @TempData["ErrorMessage"]</span>
+            <button type="button" class="alert-close-btn" onclick="document.getElementById('mgrErrorAlert').style.display='none'">&times;</button>
+        </div>
+    }
+
+    <div class="table-header-actions">
+        <h2 class="page-title">Quản lý hàng hóa</h2>
+        <a asp-action="NewProduct" class="btn-add-new">
+            <span>+</span> Thêm mới sản phẩm
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th class="text-center" style="width: 70px;">STT</th>
+                    <th>Tên hàng</th>
+                    <th style="width: 160px;">Đơn giá</th>
+                    <th>Mô tả</th>
+                    <th class="text-center" style="width: 110px;">Xử lý</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center fw-bold">@(stt++)</td>
+                            <td class="fw-semibold">@item.ProductName</td>
+                            <td>@string.Format("{0:N0} VND", item.ProductPrice)</td>
+                            <td>@(string.IsNullOrWhiteSpace(item.Description) ? "—" : item.Description)</td>
+                            <td class="text-center">
+                                <a asp-action="Delete" asp-route-id="@item.ProductID"
+                                   class="btn-delete-link"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa mặt hàng \'@item.ProductName\' không?');">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                    Xóa
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" class="empty-state">
+                            Chưa có mặt hàng nào trong CSDL. <a asp-action="NewProduct" style="color: var(--primary-color);">Bấm vào đây để thêm mới!</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

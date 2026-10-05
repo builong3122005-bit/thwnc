@@ -1,0 +1,54 @@
+@model IEnumerable<MVC04.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/product.css" asp-append-version="true" />
+}
+
+<div class="catalog-container">
+    <div class="catalog-header">
+        <h1 class="catalog-title">Products</h1>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        @* Luoi danh sach san pham 3 cot theo dung Hinh 1 *@
+        <div class="catalog-grid">
+            @foreach (var item in Model)
+            {
+                <div class="catalog-card">
+                    <div class="catalog-card-img-wrap">
+                        <a asp-action="ProductDetail" asp-route-id="@item.ProductID">
+                            <img src="@(string.IsNullOrWhiteSpace(item.ImageURL) ? "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1%20text%20%7B%20fill%3A%23999%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23eee%22%3E%3C%2Frect%3E%3Cg%3E%3Cline%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%22200%22%20y2%3D%22200%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%222%22%3E%3C%2Fline%3E%3Cline%20x1%3D%22200%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%22200%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%222%22%3E%3C%2Fline%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" : item.ImageURL)" 
+                                 alt="@item.ProductName" 
+                                 class="catalog-card-img" />
+                        </a>
+                        <span class="catalog-price-tag">@string.Format("{0:N0} VND", item.ProductPrice)</span>
+                    </div>
+
+                    <div class="catalog-card-body">
+                        <a asp-action="ProductDetail" asp-route-id="@item.ProductID" class="catalog-product-name">
+                            @item.ProductName
+                        </a>
+                        <p class="catalog-product-desc">
+                            @(string.IsNullOrWhiteSpace(item.Description) ? "Không có mô tả cho sản phẩm này." : item.Description)
+                        </p>
+                        <button type="button" class="btn-add-cart">
+                            Add To Cart
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <p>Chưa có sản phẩm nào trong CSDL.</p>
+            <a asp-action="NewProduct" class="btn-add-new">+ Thêm sản phẩm mới ngay</a>
+        </div>
+    }
+</div>
